@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trinity Home Improvements - Handyman Services</title> <meta name="description" content="Trinity Home Improvements offers reliable handyman services including drywall, electrical, plumbing, smart home installations, and masonry in the Perris area. Request a free quote today!"> <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Base Font */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Custom CSS for animations and enhanced UI - Refined */
+        .slide-in-left {
+            animation: slideInLeft 0.8s ease-out forwards; /* Use forwards to keep state */
+            opacity: 0; /* Start hidden */
+        }
+        @keyframes slideInLeft {
+            from { transform: translateX(-50%); opacity: 0; } /* Adjusted start */
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .slide-in-right {
+            animation: slideInRight 0.8s ease-out forwards; /* Use forwards to keep state */
+             opacity: 0; /* Start hidden */
+        }
+        @keyframes slideInRight {
+            from { transform: translateX(50%); opacity: 0; } /* Adjusted start */
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .fade-in {
+            animation: fadeIn 1.2s ease-out forwards; /* Use forwards to keep state */
+             opacity: 0; /* Start hidden */
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .popup {
+            animation: popup 0.3s ease-out; /* No need for forwards here */
+        }
+        @keyframes popup {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Modal Base Styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6); /* Slightly darker overlay */
+            animation: fadeIn 0.3s ease-out; /* Fade in the overlay */
+        }
+
+        .modal-content {
+            background-color: #ffffff; /* Changed from #fefefe for better contrast */
+            margin: 10% auto;
+            padding: 2rem; /* Increased padding */
+            border: none; /* Removed border */
+            width: 90%;
+            max-width: 550px; /* Slightly wider modal */
+            border-radius: 0.75rem; /* 12px */
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* Enhanced shadow */
+            animation: popup 0.3s ease-out;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem; /* Increased spacing */
+            padding-bottom: 1rem; /* Increased spacing */
+            border-bottom: 1px solid #e5e7eb; /* Tailwind gray-200 */
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5rem; /* 24px */
+            font-weight: 600;
+            color: #1f2937; /* Tailwind gray-800 */
+        }
+
+        .close-button {
+            color: #9ca3af; /* Tailwind gray-400 */
+            background: none;
+            border: none;
+            font-size: 2rem; /* 32px */
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            line-height: 1; /* Ensure proper vertical alignment */
+            padding: 0.25rem; /* Add some clickable area */
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: #1f2937; /* Tailwind gray-800 */
+            outline: none;
+        }
+
+        .modal-body {
+            padding-bottom: 1.5rem; /* Increased spacing */
+        }
+
+        .modal-body form label {
+            display: block; /* Ensure labels are on their own line */
+            margin-bottom: 0.5rem; /* 8px */
+            font-weight: 500;
+            color: #374151; /* Tailwind gray-700 */
+        }
+
+        .modal-body form input[type="text"],
+        .modal-body form input[type="email"],
+        .modal-body form input[type="tel"],
+        .modal-body form textarea {
+            width: 100%;
+            padding: 0.75rem; /* 12px */
+            margin-bottom: 1rem; /* 16px */
+            border: 1px solid #d1d5db; /* Tailwind gray-300 */
+            border-radius: 0.375rem; /* 6px */
+            font-size: 1rem; /* 16px */
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            outline: none;
+        }
+
+        .modal-body form input[type="text"]:focus,
+        .modal-body form input[type="email"]:focus,
+        .modal-body form input[type="tel"]:focus,
+        .modal-body form textarea:focus {
+            border-color: #4f46e5; /* Tailwind indigo-600 */
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15); /* Adjusted shadow color */
+        }
+
+         .modal-body form textarea {
+            resize: vertical;
+            min-height: 100px; /* Set min-height instead of fixed height */
+        }
+
+        .modal-footer {
+            text-align: right;
+            padding-top: 1rem; /* Add spacing */
+            border-top: 1px solid #e5e7eb; /* Tailwind gray-200 */
+            margin-top: 1rem; /* Add spacing */
+        }
+
+         /* Form feedback styles */
+        .form-feedback {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem; /* 14px */
+            display: none; /* Hidden by default */
+        }
+        .form-feedback.success {
+            background-color: #d1fae5; /* Tailwind green-100 */
+            color: #065f46; /* Tailwind green-800 */
+            display: block;
+        }
+        .form-feedback.error {
+            background-color: #fee2e2; /* Tailwind red-100 */
+            color: #991b1b; /* Tailwind red-800 */
+            display: block;
+        }
+         .form-feedback.loading {
+            background-color: #e0e7ff; /* Tailwind indigo-100 */
+            color: #3730a3; /* Tailwind indigo-800 */
+            display: block;
+        }
+
+        /* Keyframe for shaking hamburger */
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+        .shake-animation {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        /* Service Card Styles */
+        .service-card {
+            background-color: #f9fafb; /* Tailwind gray-50 */
+            border-radius: 0.75rem; /* 12px */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 1.5rem; /* 24px */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            display: flex; /* Use flexbox for better layout */
+            flex-direction: column; /* Stack content vertically */
+            height: 100%; /* Make cards equal height in grid */
+        }
+
+        .service-card:hover {
+            transform: translateY(-0.5rem) scale(1.02); /* Enhanced hover effect */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Tailwind shadow-lg */
+        }
+
+        .service-card h3 {
+            font-size: 1.25rem; /* 20px */
+            font-weight: 600;
+            color: #1f2937; /* Tailwind gray-800 */
+            margin-bottom: 0.75rem; /* 12px */
+            transition: color 0.3s ease;
+        }
+
+        .service-card:hover h3 {
+            color: #4f46e5; /* Tailwind indigo-600 */
+        }
+
+        .service-card p {
+            color: #4b5563; /* Tailwind gray-600 */
+            margin-bottom: 1rem; /* 16px */
+            flex-grow: 1; /* Allow paragraph to grow to fill space */
+        }
+
+        .service-card ul {
+            list-style: none;
+            padding-left: 0;
+            margin-left: 0;
+            margin-top: auto; /* Push list to bottom if space allows */
+        }
+
+        .service-card ul li {
+            color: #4b5563; /* Tailwind gray-600 */
+            position: relative;
+            padding-left: 1.25rem; /* Space for bullet */
+            margin-bottom: 0.25rem; /* 4px */
+        }
+
+        .service-card ul li::before {
+            content: '✓'; /* Use checkmark instead of bullet */
+            color: #10b981; /* Tailwind emerald-500 */
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* Service Modal Styles */
+        #service-modal .modal-content {
+            max-width: 650px; /* Wider for service details */
+        }
+
+        #service-modal .modal-header h2 {
+             font-size: 1.75rem; /* 28px */
+        }
+
+        #service-modal .modal-body {
+            color: #374151; /* Tailwind gray-700 */
+            line-height: 1.75;
+        }
+         #service-modal .modal-body img {
+            border-radius: 0.5rem; /* 8px */
+            margin-top: 1.5rem; /* Increased spacing */
+            margin-bottom: 1.5rem; /* Increased spacing */
+            width: 100%;
+            height: auto;
+            max-height: 300px; /* Limit image height */
+            object-fit: cover; /* Ensure image covers space */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        /* FAQ Section Styles */
+        .faq-item {
+             background-color: #ffffff;
+             border: 1px solid #e5e7eb; /* Tailwind gray-200 */
+             border-radius: 0.5rem; /* 8px */
+             margin-bottom: 1rem; /* 16px */
+             overflow: hidden; /* Needed for smooth transition */
+             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); /* Tailwind shadow-sm */
+        }
+
+        .faq-question {
+             display: flex;
+             justify-content: space-between;
+             align-items: center;
+             width: 100%;
+             padding: 1rem 1.5rem; /* 16px 24px */
+             background: none;
+             border: none;
+             text-align: left;
+             font-size: 1.125rem; /* 18px */
+             font-weight: 500;
+             color: #1f2937; /* Tailwind gray-800 */
+             cursor: pointer;
+             transition: background-color 0.2s ease;
+        }
+
+        .faq-question:hover {
+            background-color: #f9fafb; /* Tailwind gray-50 */
+        }
+
+        .faq-icon {
+            transition: transform 0.3s ease;
+            color: #6b7280; /* Tailwind gray-500 */
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out; /* Smooth transition */
+            padding: 0 1.5rem; /* Horizontal padding only when closed */
+            color: #4b5563; /* Tailwind gray-600 */
+            line-height: 1.6;
+        }
+
+         /* State when FAQ is open */
+         .faq-item.open .faq-question {
+             /* background-color: #f3f4f6; /* Optional: Slightly different background when open */
+         }
+        .faq-item.open .faq-icon {
+             transform: rotate(45deg); /* Rotate plus to 'x' */
+        }
+        .faq-item.open .faq-answer {
+            /* max-height will be set by JS */
+            padding: 1.5rem 1.5rem; /* Add vertical padding when open */
+            border-top: 1px solid #e5e7eb; /* Separator line */
+        }
+
+        /* Service Area Styles */
+         #service-area ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 1rem; /* Add space above list */
+            column-count: 2; /* Display in two columns on wider screens */
+            column-gap: 2rem; /* Space between columns */
+        }
+         #service-area li {
+             position: relative;
+             padding-left: 1.5rem; /* Space for icon */
+             margin-bottom: 0.5rem; /* 8px */
+             color: #374151; /* Tailwind gray-700 */
+         }
+         #service-area li::before {
+            content: '📍'; /* Map pin emoji */
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1rem;
+         }
+         @media (max-width: 640px) { /* Single column on small screens */
+             #service-area ul {
+                 column-count: 1;
+             }
+         }
+
+    </style>
+</head>
+<body class="bg-gray-100 font-inter text-gray-800"> <header class="bg-white shadow-md sticky top-0 z-50"> <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center text-2xl font-semibold text-indigo-600">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 mr-2 text-indigo-500">
+                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                </svg>
+                <span class="font-bold">Trinity Home Improvements</span>
+            </a>
+            <nav class="hidden md:flex items-center space-x-6">
+                <a href="#services" class="text-gray-700 hover:text-indigo-600 transition duration-300 font-medium">Services</a>
+                <a href="#service-area" class="text-gray-700 hover:text-indigo-600 transition duration-300 font-medium">Service Area</a>
+                <a href="#faq" class="text-gray-700 hover:text-indigo-600 transition duration-300 font-medium">FAQ</a>
+                <a href="#testimonials" class="text-gray-700 hover:text-indigo-600 transition duration-300 font-medium">Testimonials</a>
+                <a href="#contact" class="text-gray-700 hover:text-indigo-600 transition duration-300 font-medium">Contact</a>
+                <button id="quote-button" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-5 rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75 text-sm">Request Quote</button> </nav>
+            <div class="md:hidden">
+                <button id="hamburger-button" class="text-gray-700 focus:outline-none p-2" aria-label="Toggle Navigation" aria-expanded="false" aria-controls="mobile-menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white shadow-lg border-t border-gray-200 py-3" role="menu">
+            <a href="#services" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition duration-300" role="menuitem">Services</a>
+             <a href="#service-area" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition duration-300" role="menuitem">Service Area</a>
+             <a href="#faq" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition duration-300" role="menuitem">FAQ</a>
+            <a href="#testimonials" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition duration-300" role="menuitem">Testimonials</a>
+            <a href="#contact" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition duration-300" role="menuitem">Contact</a>
+            <div class="px-4 py-2 mt-2 border-t border-gray-200">
+                <button id="mobile-quote-button" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-5 rounded-md transition duration-300 w-full text-center focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75">Request a Quote</button>
+            </div>
+        </div>
+    </header>
+
+    <main> <section class="bg-gradient-to-br from-indigo-50 via-white to-blue-50 py-20 md:py-28">
+            <div class="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
+                <div class="text-center md:text-left slide-in-left">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-indigo-800 mb-5 leading-tight">Your Trusted Home Improvement Experts</h1>
+                    <p class="text-lg text-gray-600 mb-8 max-w-xl mx-auto md:mx-0">
+                        Serving Perris and surrounding communities with reliable, high-quality handyman services. Your satisfaction is our top priority.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center md:justify-start gap-4">
+                        <button id="hero-quote-button" class="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 px-8 rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-opacity-75 text-lg popup">Request a Free Quote</button>
+                        <a href="#services" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-8 rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75 text-lg text-center">Explore Services</a>
+                    </div>
+                </div>
+                <div class="hidden md:block slide-in-right">
+                    <img src="https://source.unsplash.com/random/600x450/?tools,house-repair" alt="Handyman tools ready for home repair" class="rounded-lg shadow-xl object-cover aspect-video"> </div>
+            </div>
+        </section>
+
+        <section id="services" class="container mx-auto py-16 md:py-24 px-4">
+            <h2 class="text-3xl md:text-4xl font-semibold text-indigo-800 text-center mb-16 fade-in">Our Comprehensive Services</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="service-card" data-service="drywall" role="button" tabindex="0" aria-haspopup="dialog">
+                    <h3 class="text-xl font-semibold">Drywall Installation & Repair</h3>
+                    <p>Professional installation, seamless repairs, and perfect texturing for your walls and ceilings.</p>
+                    <ul>
+                        <li>New Installation</li>
+                        <li>Patching & Repairs</li>
+                        <li>Texture Matching</li>
+                    </ul>
+                </div>
+                <div class="service-card" data-service="electrical" role="button" tabindex="0" aria-haspopup="dialog">
+                    <h3 class="text-xl font-semibold">Electrical & Plumbing</h3>
+                    <p>Safe and reliable repairs, installations, and upgrades for your home's essential systems.</p>
+                    <ul>
+                        <li>Fixture Installation</li>
+                        <li>Outlet & Switch Repair</li>
+                        <li>Leak Fixes</li>
+                    </ul>
+                </div>
+                <div class="service-card" data-service="smartHome" role="button" tabindex="0" aria-haspopup="dialog">
+                    <h3 class="text-xl font-semibold">Smart Home Setups</h3>
+                    <p>Integrate modern convenience with smart lighting, thermostat, and automation installations.</p>
+                    <ul>
+                        <li>Smart Lighting</li>
+                        <li>Thermostat Installs</li>
+                        <li>Device Setup</li>
+                    </ul>
+                </div>
+                <div class="service-card" data-service="masonry" role="button" tabindex="0" aria-haspopup="dialog">
+                    <h3 class="text-xl font-semibold">Masonry & Concrete</h3>
+                    <p>Durable and attractive solutions for patios, walkways, and foundational work.</p>
+                    <ul>
+                        <li>Patio Construction</li>
+                        <li>Walkway Paving</li>
+                        <li>Minor Concrete Repair</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="service-area" class="bg-indigo-50 py-16 md:py-24">
+            <div class="container mx-auto px-4 text-center fade-in">
+                <h2 class="text-3xl md:text-4xl font-semibold text-indigo-800 mb-6">Serving Your Community</h2>
+                <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+                    Trinity Home Improvements is proud to offer services in Perris and the following surrounding areas:
+                </p>
+                <div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
+                     <ul>
+                         <li>Perris</li>
+                         <li>Moreno Valley</li>
+                         <li>Menifee</li>
+                         <li>Sun City</li>
+                         <li>Hemet</li>
+                         <li>Lake Elsinore</li>
+                         <li>Wildomar</li>
+                         <li>Murrieta</li>
+                         <li>Temecula (Northern areas)</li>
+                         <li>Riverside (Southern areas)</li>
+                         </ul>
+                     <p class="mt-6 text-gray-500 text-sm">
+                         Don't see your location? <a href="#contact" class="text-indigo-600 hover:underline">Contact us</a> to inquire about service availability in your area.
+                     </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="container mx-auto py-16 md:py-24 px-4">
+            <h2 class="text-3xl md:text-4xl font-semibold text-indigo-800 text-center mb-16 fade-in">Frequently Asked Questions</h2>
+            <div class="max-w-3xl mx-auto">
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-1">
+                        <span>What types of handyman services do you offer?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div id="faq-answer-1" class="faq-answer" role="region" aria-hidden="true">
+                        <p>We offer a wide range of services including drywall installation and repair, minor electrical and plumbing fixes, smart home device installations, masonry and concrete work, painting, fixture replacements, and general home maintenance tasks. Check our <a href="#services" class="text-indigo-600 hover:underline">Services</a> section for more details.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-2">
+                        <span>What areas do you serve?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div id="faq-answer-2" class="faq-answer" role="region" aria-hidden="true">
+                        <p>We primarily serve Perris, CA, and surrounding communities including Moreno Valley, Menifee, Sun City, Hemet, and parts of Lake Elsinore, Wildomar, Murrieta, Temecula, and Riverside. Please see our <a href="#service-area" class="text-indigo-600 hover:underline">Service Area</a> section for a list, or contact us if you're unsure.</p>
+                    </div>
+                </div>
+                 <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-3">
+                        <span>How do I request a quote?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div id="faq-answer-3" class="faq-answer" role="region" aria-hidden="true">
+                        <p>You can easily request a free quote by clicking any of the "Request a Quote" buttons on our website, which will open a simple form. Alternatively, you can call us or send us a message via the <a href="#contact" class="text-indigo-600 hover:underline">Contact</a> section.</p>
+                    </div>
+                </div>
+                 <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-4">
+                        <span>Are you licensed and insured?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div id="faq-answer-4" class="faq-answer" role="region" aria-hidden="true">
+                        <p>Yes, Trinity Home Improvements is fully licensed and insured for your peace of mind. We prioritize safety and professionalism in all our projects.</p>
+                    </div>
+                </div>
+                 <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-5">
+                        <span>What are your payment options?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div id="faq-answer-5" class="faq-answer" role="region" aria-hidden="true">
+                        <p>We accept various payment methods, including cash, checks, and major credit cards. Payment details will be discussed and confirmed before work begins.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonials" class="bg-gray-50 py-16 md:py-24">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-semibold text-indigo-800 text-center mb-16 fade-in">What Our Customers Say</h2>
+                <div class="max-w-3xl mx-auto">
+                    <div class="bg-white rounded-lg shadow-lg p-8 slide-in-left mb-8"> <div class="flex items-center mb-4">
+                            <div class="text-yellow-400 text-xl mr-2">
+                                ★★★★★
+                            </div>
+                            <p class="text-gray-900 font-semibold">- Craig S., Long Beach, CA</p>
+                        </div>
+                        <p class="text-gray-700 italic text-lg mb-4">"Joel did great work at a fair price. He was friendly and transparent throughout the installation process. I'd recommend his handyman services!"</p>
+                        <p class="text-gray-500 text-sm text-right">Posted: Mar 13, 2025</p> </div>
+                    <div class="bg-white rounded-lg shadow-lg p-8 slide-in-right">
+                         <div class="flex items-center mb-4">
+                             <div class="text-yellow-400 text-xl mr-2">
+                                 ★★★★☆
+                             </div>
+                             <p class="text-gray-900 font-semibold">- Maria G., Perris, CA</p>
+                         </div>
+                         <p class="text-gray-700 italic text-lg mb-4">"Very happy with the drywall repair. Professional service and cleaned up nicely afterwards. Will call again for future projects."</p>
+                         <p class="text-gray-500 text-sm text-right">Posted: Feb 28, 2025</p>
+                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="container mx-auto py-16 md:py-24 px-4">
+            <h2 class="text-3xl md:text-4xl font-semibold text-indigo-800 text-center mb-16 fade-in">Get In Touch</h2>
+            <div class="bg-white rounded-lg shadow-xl p-8 md:p-12 grid md:grid-cols-2 gap-12 items-start max-w-5xl mx-auto">
+                <div class="slide-in-left">
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-4">Contact Information</h3>
+                    <p class="text-gray-600 mb-6">Have questions or ready to start your next project? Reach out to us!</p>
+                    <ul class="text-gray-700 space-y-3">
+                        <li class="flex items-start"><strong class="w-20 inline-block shrink-0">Phone:</strong> <a href="tel:555-123-4567" class="text-indigo-600 hover:underline">(555) 123-4567</a></li>
+                        <li class="flex items-start"><strong class="w-20 inline-block shrink-0">Email:</strong> <a href="mailto:info@trinityhomeimprovements.com" class="text-indigo-600 hover:underline">info@trinityhomeimprovements.com</a></li>
+                        <li class="flex items-start"><strong class="w-20 inline-block shrink-0">Address:</strong> <span>123 Main St, Perris, CA 92570</span></li> <li class="flex items-start"><strong class="w-20 inline-block shrink-0">Hours:</strong> <span>Mon - Fri: 8:00 AM - 5:00 PM</span></li>
+                    </ul>
+                     <p class="text-gray-600 mt-6 text-sm">We aim to respond to all inquiries within 24 business hours.</p>
+                </div>
+                <div class="slide-in-right">
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-4">Send Us a Message</h3>
+                    <form class="space-y-5" action="#" method="POST">
+                        <div>
+                            <label for="contact-name" class="block text-gray-700 text-sm font-medium mb-1">Name</label>
+                            <input type="text" id="contact-name" name="name" required class="appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent" placeholder="Your Full Name">
+                        </div>
+                        <div>
+                            <label for="contact-email" class="block text-gray-700 text-sm font-medium mb-1">Email</label>
+                            <input type="email" id="contact-email" name="email" required class="appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent" placeholder="you@example.com">
+                        </div>
+                         <div>
+                            <label for="contact-subject" class="block text-gray-700 text-sm font-medium mb-1">Subject</label>
+                            <input type="text" id="contact-subject" name="subject" class="appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent" placeholder="Brief description">
+                        </div>
+                        <div>
+                            <label for="contact-message" class="block text-gray-700 text-sm font-medium mb-1">Message</label>
+                            <textarea id="contact-message" name="message" rows="5" required class="appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none" placeholder="How can we help you?"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; <span id="current-year"></span> Trinity Home Improvements. All rights reserved.</p>
+             <p class="text-sm mt-2">Serving Perris, CA and surrounding areas.</p>
+             </div>
+    </footer>
+
+    <div id="quote-modal" class="modal" aria-hidden="true" aria-labelledby="quote-modal-title" aria-modal="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="quote-modal-title">Request a Free Quote</h2>
+                <button class="close-button" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="quote-form" novalidate> <label for="quote-name">Name:</label>
+                    <input type="text" id="quote-name" name="name" required aria-required="true">
+
+                    <label for="quote-email">Email:</label>
+                    <input type="email" id="quote-email" name="email" required aria-required="true">
+
+                    <label for="quote-phone">Phone:</label>
+                    <input type="tel" id="quote-phone" name="phone" required aria-required="true">
+
+                    <label for="quote-service">Describe the service needed:</label>
+                    <textarea id="quote-service" name="service" required aria-required="true" placeholder="Please provide details about the job (e.g., repair leaky faucet in kitchen, install ceiling fan in bedroom)..."></textarea>
+
+                    <div id="quote-feedback" class="form-feedback"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="submit-quote" type="submit" form="quote-form" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-5 rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75">Submit Request</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="service-modal" class="modal" aria-hidden="true" aria-labelledby="service-modal-title" aria-modal="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="service-modal-title">Service Details</h2> <button class="close-button" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body" id="service-modal-body">
+                <p>Loading service details...</p>
+            </div>
+            <div class="modal-footer">
+                <button id="service-modal-quote-button" class="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-2 px-5 rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-opacity-75">Request Quote for this Service</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Update Footer Year
+            const currentYear = new Date().getFullYear();
+            const yearSpan = document.getElementById('current-year');
+            if (yearSpan) {
+                yearSpan.textContent = currentYear;
+            }
+
+            // --- Modal Handling ---
+            const quoteModal = document.getElementById('quote-modal');
+            const serviceModal = document.getElementById('service-modal');
+            const openQuoteButtons = document.querySelectorAll('#quote-button, #hero-quote-button, #mobile-quote-button, #service-modal-quote-button');
+            const closeButtons = document.querySelectorAll('.modal .close-button');
+            const serviceCards = document.querySelectorAll('.service-card');
+
+            const openModal = (modalElement) => {
+                if (!modalElement) return;
+                modalElement.style.display = 'block';
+                modalElement.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden'; // Prevent background scroll
+                // Focus first focusable element in modal (optional, for better accessibility)
+                const focusable = modalElement.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                if (focusable) focusable.focus();
+            };
+
+            const closeModal = (modalElement) => {
+                if (!modalElement) return;
+                modalElement.style.display = 'none';
+                modalElement.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = ''; // Restore background scroll
+
+                // Clear quote form feedback when closing
+                if (modalElement === quoteModal) {
+                    const feedbackDiv = quoteModal.querySelector('#quote-feedback');
+                    feedbackDiv.className = 'form-feedback'; // Reset classes
+                    feedbackDiv.textContent = '';
+                    quoteModal.querySelector('#quote-form').reset();
+                }
+            };
+
+            openQuoteButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // If opening from service modal, close it first
+                    if (serviceModal.style.display === 'block') {
+                        closeModal(serviceModal);
+                    }
+                    openModal(quoteModal);
+                    // Pre-fill service if clicked from service modal
+                    if (button.id === 'service-modal-quote-button') {
+                        const serviceTitle = document.getElementById('service-modal-title').textContent;
+                        const serviceDescInput = quoteModal.querySelector('#quote-service');
+                        serviceDescInput.value = `I'm interested in the "${serviceTitle}" service. `;
+                        serviceDescInput.focus(); // Focus the description field
+                    }
+                });
+            });
+
+            closeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    closeModal(button.closest('.modal'));
+                });
+            });
+
+            // Close modal on outside click
+            window.addEventListener('click', (event) => {
+                if (event.target === quoteModal) {
+                    closeModal(quoteModal);
+                }
+                if (event.target === serviceModal) {
+                    closeModal(serviceModal);
+                }
+            });
+
+             // Close modal with Escape key
+            window.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    if (quoteModal.style.display === 'block') closeModal(quoteModal);
+                    if (serviceModal.style.display === 'block') closeModal(serviceModal);
+                }
+            });
+
+            // --- Service Card Modal Content ---
+             const serviceModalTitle = document.getElementById('service-modal-title');
+             const serviceModalBody = document.getElementById('service-modal-body');
+
+             const serviceDetails = {
+                 drywall: {
+                     title: 'Drywall Installation and Repair',
+                     description: `We provide expert drywall services, from small patches to full room installations. Our process ensures seamless finishes and perfect texturing. Services include:
+                        <ul class='list-disc list-inside my-4 space-y-1 text-gray-600'>
+                            <li>New drywall hanging and finishing</li>
+                            <li>Repairing holes, cracks, and water damage</li>
+                            <li>Popcorn ceiling removal</li>
+                            <li>Texture application (knockdown, orange peel, etc.)</li>
+                        </ul>
+                        We handle everything cleanly and efficiently, preparing surfaces for painting.`,
+                     image: "https://source.unsplash.com/random/500x300/?drywall,construction"
+                 },
+                 electrical: {
+                     title: 'Reliable Electrical & Plumbing',
+                     description: `Need a light fixture installed, a leaky faucet fixed, or an outlet replaced? Our team handles common electrical and plumbing tasks safely and effectively. Services include:
+                        <ul class='list-disc list-inside my-4 space-y-1 text-gray-600'>
+                            <li>Ceiling fan installation</li>
+                            <li>Light fixture replacement</li>
+                            <li>Outlet and switch repair/replacement</li>
+                            <li>Minor leak repair (faucets, toilets)</li>
+                            <li>Garbage disposal installation/repair</li>
+                        </ul>
+                        We adhere to safety standards for all electrical and plumbing work.`,
+                     image: "https://source.unsplash.com/random/500x300/?electrical,wiring,plumbing,pipes"
+                 },
+                 smartHome: {
+                     title: 'Smart Home Installations',
+                     description: `Upgrade your home with the latest smart technology. We can help you install and configure various smart devices for convenience and efficiency. Services include:
+                        <ul class='list-disc list-inside my-4 space-y-1 text-gray-600'>
+                            <li>Smart thermostat installation (Nest, Ecobee, etc.)</li>
+                            <li>Smart lighting setup (bulbs, switches)</li>
+                            <li>Smart lock installation</li>
+                            <li>Video doorbell setup (Ring, Google Nest)</li>
+                            <li>Basic Wi-Fi setup and troubleshooting</li>
+                        </ul>
+                        Let us help you create a more connected and automated home.`,
+                      image: "https://source.unsplash.com/random/500x300/?smart,home,automation,tech"
+                 },
+                 masonry: {
+                     title: 'Masonry and Concrete Work',
+                     description: `Enhance your property's curb appeal and functionality with our masonry and concrete services. We handle small to medium-sized projects with quality materials. Services include:
+                        <ul class='list-disc list-inside my-4 space-y-1 text-gray-600'>
+                            <li>Minor brick or block repair</li>
+                            <li>Small patio or walkway construction/repair</li>
+                            <li>Concrete crack repair</li>
+                            <li>Mailbox installation/repair</li>
+                            <li>Foundation parging/coating</li>
+                        </ul>
+                        We focus on durable and aesthetically pleasing results for your outdoor spaces.`,
+                     image: "https://source.unsplash.com/random/500x300/?masonry,concrete,bricks,patio"
+                 }
+             };
+
+            serviceCards.forEach(card => {
+                const openServiceModal = () => {
+                     const serviceKey = card.dataset.service;
+                     const details = serviceDetails[serviceKey] || { title: 'Service Details', description: 'Information not available.', image: '' };
+
+                     serviceModalTitle.textContent = details.title;
+                     serviceModalBody.innerHTML = `
+                         <p>${details.description}</p>
+                         ${details.image ? `<img src="${details.image}" alt="${details.title}" class="mt-4">` : ''}
+                     `;
+                     openModal(serviceModal);
+                 };
+
+                card.addEventListener('click', openServiceModal);
+                 // Allow opening with Enter key when card is focused
+                card.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault(); // Prevent default space scroll
+                        openServiceModal();
+                    }
+                });
+            });
+
+
+            // --- Mobile Menu Toggle ---
+            const hamburgerButton = document.getElementById('hamburger-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuLinks = mobileMenu.querySelectorAll('a, button'); // Get all focusable items
+
+            if (hamburgerButton && mobileMenu) {
+                hamburgerButton.addEventListener('click', () => {
+                    const isExpanded = hamburgerButton.getAttribute('aria-expanded') === 'true';
+                    mobileMenu.classList.toggle('hidden');
+                    hamburgerButton.setAttribute('aria-expanded', !isExpanded);
+
+                    // Toggle animation class
+                    hamburgerButton.classList.add('shake-animation');
+                    setTimeout(() => {
+                        hamburgerButton.classList.remove('shake-animation');
+                    }, 500); // Match animation duration
+                });
+
+                // Close mobile menu when a link is clicked
+                 mobileMenuLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                        hamburgerButton.setAttribute('aria-expanded', 'false');
+                    });
+                 });
+            }
+
+            // --- Quote Form Submission (Client-Side Simulation) ---
+            const quoteForm = document.getElementById('quote-form');
+            const submitQuoteButton = document.getElementById('submit-quote');
+            const feedbackDiv = document.getElementById('quote-feedback');
+
+            if (quoteForm && submitQuoteButton && feedbackDiv) {
+                quoteForm.addEventListener('submit', (event) => {
+                    event.preventDefault(); // Prevent default form submission
+
+                    // Basic Validation
+                    const name = quoteForm.querySelector('#quote-name').value.trim();
+                    const email = quoteForm.querySelector('#quote-email').value.trim();
+                    const phone = quoteForm.querySelector('#quote-phone').value.trim();
+                    const service = quoteForm.querySelector('#quote-service').value.trim();
+
+                    if (!name || !email || !phone || !service) {
+                        feedbackDiv.textContent = 'Please fill in all required fields.';
+                        feedbackDiv.className = 'form-feedback error'; // Add error class
+                        return; // Stop submission
+                    }
+
+                    // Looks valid, simulate submission
+                    feedbackDiv.textContent = 'Submitting your request...';
+                    feedbackDiv.className = 'form-feedback loading'; // Add loading class
+                    submitQuoteButton.disabled = true;
+                    submitQuoteButton.textContent = 'Sending...';
+
+                    // Simulate network delay
+                    setTimeout(() => {
+                        // Simulate Success
+                        feedbackDiv.textContent = 'Thank you! Your quote request has been received. We will contact you shortly.';
+                        feedbackDiv.className = 'form-feedback success'; // Add success class
+                        quoteForm.reset(); // Clear the form
+
+                        // Re-enable button after a short delay (or close modal)
+                        setTimeout(() => {
+                             submitQuoteButton.disabled = false;
+                             submitQuoteButton.textContent = 'Submit Request';
+                            // Optionally close the modal after success:
+                            // closeModal(quoteModal);
+                         }, 2000); // Wait 2 seconds before re-enabling
+
+
+                        // To Simulate an Error instead:
+                        // feedbackDiv.textContent = 'An error occurred. Please try again later or contact us directly.';
+                        // feedbackDiv.className = 'form-feedback error';
+                        // submitQuoteButton.disabled = false;
+                        // submitQuoteButton.textContent = 'Submit Request';
+
+                    }, 1500); // Simulate 1.5 seconds delay
+                });
+            }
+
+             // --- FAQ Accordion ---
+            const faqItems = document.querySelectorAll('.faq-item');
+
+            faqItems.forEach(item => {
+                const questionButton = item.querySelector('.faq-question');
+                const answerDiv = item.querySelector('.faq-answer');
+                const iconSpan = item.querySelector('.faq-icon');
+
+                if (questionButton && answerDiv && iconSpan) {
+                    questionButton.addEventListener('click', () => {
+                        const isOpening = !item.classList.contains('open');
+
+                        // Close all other items (optional, for single-open accordion)
+                        // faqItems.forEach(otherItem => {
+                        //     if (otherItem !== item && otherItem.classList.contains('open')) {
+                        //         otherItem.classList.remove('open');
+                        //         otherItem.querySelector('.faq-answer').style.maxHeight = null;
+                        //          otherItem.querySelector('.faq-answer').setAttribute('aria-hidden', 'true');
+                        //         otherItem.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+                        //         otherItem.querySelector('.faq-icon').textContent = '+';
+                        //     }
+                        // });
+
+                        // Toggle the clicked item
+                        item.classList.toggle('open');
+                        questionButton.setAttribute('aria-expanded', isOpening);
+                        answerDiv.setAttribute('aria-hidden', !isOpening);
+
+                        if (isOpening) {
+                            // Set max-height to scrollHeight for opening animation
+                            answerDiv.style.maxHeight = answerDiv.scrollHeight + 'px';
+                            iconSpan.textContent = '-'; // Change icon
+                        } else {
+                            // Collapse
+                            answerDiv.style.maxHeight = null; // Use null to revert to CSS value
+                            iconSpan.textContent = '+'; // Change icon
+                        }
+                    });
+
+                    // Recalculate max-height on window resize if the answer is open
+                     window.addEventListener('resize', () => {
+                         if (item.classList.contains('open')) {
+                             // Temporarily remove max-height to get current scrollHeight
+                             answerDiv.style.maxHeight = null;
+                             // Then reapply based on new scrollHeight
+                             requestAnimationFrame(() => { // Ensure DOM update before reading scrollHeight
+                                answerDiv.style.maxHeight = answerDiv.scrollHeight + 'px';
+                             });
+                         }
+                     });
+                }
+            });
+
+        }); // End DOMContentLoaded
+    </script>
+
+</body>
+</html>
